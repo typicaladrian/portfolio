@@ -1,0 +1,72 @@
+---
+// Illustrates the gateway's real placeholder format ([LABEL_N]) on a made-up prompt.
+---
+
+<div class="win" aria-label="Example: a prompt with names is redacted to placeholder tokens before leaving the network">
+  <div class="bar"><span></span><span></span><span></span><em>zero-trust proxy · on-prem</em></div>
+  <div class="body">
+    <p class="who">Staff prompt</p>
+    <p class="msg">
+      Summarize the indemnity clause in the contract between <mark>Jane&nbsp;Smith</mark> and
+      <mark>Acme&nbsp;Corp</mark>.
+    </p>
+    <p class="hop"><span>↓</span> sent to the cloud LLM as</p>
+    <p class="msg out">
+      Summarize the indemnity clause in the contract between <code>[PERSON_1]</code> and
+      <code>[ORGANIZATION_1]</code>.
+    </p>
+    <ol class="pipe">
+      <li>regex</li><li>client vault</li><li>GLiNER2 NER</li><li>sweep</li>
+    </ol>
+  </div>
+</div>
+
+<style>
+  .msg mark {
+    background: rgba(248, 113, 113, 0.16);
+    color: #fecaca;
+    border-radius: 4px;
+    padding: 0 3px;
+  }
+  .msg code {
+    font-family: var(--mono);
+    font-size: 0.86em;
+    background: rgba(74, 222, 128, 0.14);
+    color: #bbf7d0;
+    border-radius: 4px;
+    padding: 1px 4px;
+  }
+  .out {
+    border-color: rgba(74, 222, 128, 0.25);
+  }
+  .hop {
+    margin: 10px 0;
+    font-size: 11.5px;
+    color: var(--dim);
+  }
+  .hop span {
+    color: var(--accent);
+    margin-right: 4px;
+  }
+  .pipe {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 0;
+    margin: 14px 0 0;
+    counter-reset: step;
+  }
+  .pipe li {
+    counter-increment: step;
+    font-size: 11px;
+    color: var(--muted);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 2px 9px;
+  }
+  .pipe li::before {
+    content: counter(step) '. ';
+    color: var(--dim);
+  }
+</style>

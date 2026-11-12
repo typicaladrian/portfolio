@@ -1,0 +1,112 @@
+---
+import '@fontsource-variable/inter';
+import '../styles/global.css';
+import { Image, getImage } from 'astro:assets';
+import headshot from '../assets/headshot.jpg';
+import Icon from '../components/Icon.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import { profile, now, previously, certifications, toolkit, projects } from '../data/site';
+
+const title = `${profile.name} | Software Engineer & SDET`;
+const description =
+  'Entry-level software engineer and SDET. Python/FastAPI backends, pytest and CI, LLM-integrated systems. B.S. CS (RPI), CySA+.';
+const ogImage = await getImage({ src: headshot, width: 600, height: 600, format: 'jpg' });
+const ogUrl = new URL(ogImage.src, Astro.site).href;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={Astro.site} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta name="theme-color" content="#111113" />
+    <meta property="og:type" content="profile" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={Astro.site} />
+    <meta property="og:image" content={ogUrl} />
+    <meta name="twitter:card" content="summary" />
+  </head>
+  <body>
+    <main>
+      <section class="intro">
+        <Image src={headshot} alt={`Headshot of ${profile.name}`} width={104} height={104} densities={[1, 2]} class="avatar" loading="eager" />
+        <div>
+          <h1>{profile.name}</h1>
+          <p class="role">{profile.role}</p>
+          <nav class="socials" aria-label="Contact and profiles">
+            <a href={profile.links.linkedin} target="_blank" rel="noopener" aria-label="LinkedIn" title="LinkedIn" class="icon li"><Icon name="linkedin" /></a>
+            <a href={profile.links.github} target="_blank" rel="noopener" aria-label="GitHub" title="GitHub" class="icon"><Icon name="github" /></a>
+            <a href={`mailto:${profile.email}`} aria-label={`Email ${profile.email}`} title={profile.email} class="icon"><Icon name="mail" /></a>
+            <a href={profile.resume} target="_blank" rel="noopener" class="resume"><Icon name="file" size={16} />Résumé</a>
+          </nav>
+        </div>
+      </section>
+
+      <p class="tagline">{profile.tagline}</p>
+      <p class="loc">{profile.location}</p>
+
+      <section class="timeline">
+        <h2 class="label">Now</h2>
+        <ul>
+          {now.map((l) => (
+            <li>
+              <Icon name="arrow" size={14} />
+              <span>
+                {l.role} · {l.href ? <a href={l.href} class="org">{l.org}</a> : <b class="org">{l.org}</b>}
+                {l.detail && <span class="detail"> · {l.detail}</span>}
+              </span>
+            </li>
+          ))}
+        </ul>
+
+        <h2 class="label">Previously</h2>
+        <ul>
+          {previously.map((l) => (
+            <li>
+              <Icon name="arrow" size={14} />
+              <span>
+                {l.role} · <b class="org">{l.org}</b>
+                {l.detail && <span class="detail"> · {l.detail}</span>}
+              </span>
+            </li>
+          ))}
+        </ul>
+
+        <h2 class="label">Certified</h2>
+        <p class="certs">
+          {certifications.map((c) => <span><b class="org">{c.name}</b> <span class="detail">{c.year}</span></span>)}
+        </p>
+
+        <h2 class="label">Toolkit</h2>
+        <ul class="toolkit">
+          {toolkit.map((t) => <li>{t}</li>)}
+        </ul>
+      </section>
+
+      <section class="work" aria-labelledby="eng">
+        <h2 id="eng" class="section-title">Engineering</h2>
+        <p class="section-sub">Things I’ve built.</p>
+        <div class="grid">
+          {projects.map((p) => <ProjectCard project={p} />)}
+        </div>
+      </section>
+
+      <footer>
+        <p>
+          Open to entry-level SWE and SDET / QA automation roles.{' '}
+          <a href={`mailto:${profile.email}`}>{profile.email}</a>
+        </p>
+        <p class="dim">
+          <a href={profile.resume} target="_blank" rel="noopener">Résumé (PDF)</a>{' · '}
+          <a href={profile.links.linkedin} target="_blank" rel="noopener">LinkedIn</a>{' · '}
+          <a href={profile.links.github} target="_blank" rel="noopener">GitHub</a>
+        </p>
+      </footer>
+    </main>
+  </body>
+</html>

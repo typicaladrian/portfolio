@@ -1,0 +1,51 @@
+---
+// Stylized run of triage.py. Ticket keys are illustrative; the flow matches the script.
+---
+
+<div class="win term" aria-label="Example run: tickets fetched by JQL, incomplete ones flagged and commented on">
+  <div class="bar"><span></span><span></span><span></span><em>triage.py</em></div>
+  <div class="body">
+    <p><b>$</b> python triage.py</p>
+    <p class="d">JQL status = "To Do" · 3 tickets</p>
+    <p class="d">local LLM → JSON checks</p>
+    <p><i class="no">✗</i> SEC-41 missing business justification</p>
+    <p class="d sub">↳ commented to reporter, moved to In Progress</p>
+    <p><i class="ok">✓</i> SEC-42 ready for manual review</p>
+    <p><i class="no">✗</i> SEC-43 missing technical details</p>
+  </div>
+</div>
+
+<style>
+  .term .body {
+    font-family: var(--mono);
+    font-size: 11.5px;
+    line-height: 1.75;
+  }
+  .term p {
+    margin: 0;
+    color: var(--text);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .term b {
+    color: var(--accent);
+    font-weight: 500;
+  }
+  .term .d {
+    color: var(--dim);
+  }
+  .term .sub {
+    padding-left: 1.3em;
+  }
+  .term i {
+    font-style: normal;
+    margin-right: 6px;
+  }
+  .ok {
+    color: var(--accent);
+  }
+  .no {
+    color: #f87171;
+  }
+</style>
